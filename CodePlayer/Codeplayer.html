@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Code SSC</title>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="jquery-ui-1.13.1/jquery-ui-1.13.1/jquery-ui.js"></script>
+
+        <link href="jquery-ui-1.13.1/jquery-ui-1.13.1/jquery-ui.css" rel="stylesheet">
+
+        <link href="codeplayer.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        <div id="container">
+            <div id="head">
+                <div id="logo">CodePlayer SSC</div>
+            </div>
+            <div id="panel">
+
+                
+
+                <div class="toggle active" id = "html">HTML</div>
+
+                <div class = "toggle" id="css">CSS</div>
+
+                <div class="toggle" id="js">JavaScript</div>
+
+                <div class="toggle active" id="output">Output</div>
+            </div>
+        </div>
+
+        <div id="construct">
+
+            <textarea id="htmlPanel" class="pan"><p id="par">Hello world!</p></textarea>
+
+            <textarea id="cssPanel" class="hidden pan" >p {color: green;}</textarea>
+
+            <textarea id="jsPanel" class="hidden pan">document.getElementById("par").innerHTML="Hello Stvn";</textarea>
+ 
+            <iframe id="outputPanel" class="pan"></iframe>
+
+        </div>
+
+        <script type="text/JavaScript" src="script.js">
+
+           
+        </script>
+
+    </body>
+
+</html>
