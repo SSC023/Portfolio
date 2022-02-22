@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Got speed?</title>
+
+        <link rel="stylesheet" type="text/css" href="circlestyle.css">
+
+    </head>
+
+    <body>
+        <div id="header">
+            <h1>Test your Reactions!</h1>
+        </div>
+        <div>
+            <p>Click on the shapes as quickly as you can!</p>
+
+            <p id="timer">Your time: <span id="tt"></span></p>
+        </div>
+        <div id="shapes">
+
+        </div>
+
+        <script type="text/javascript" src="script.js"></script>
+
+    </body>
+
+</html>
