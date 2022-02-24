@@ -136,11 +136,7 @@
 
     $headers = "from: ".$_POST['email'];
 
-    if(mail($emailTo, $subject, $body, $headers)){
-        echo "Message sent";
-    } else {
-        echo "not sent";
-    }
+  
 
 
 ?>
