@@ -4,6 +4,8 @@
 
     if($_SESSION['email']){
         
+        //setcookie should be set to let the user be logged even after closing the browser
+        
     }
 
 
