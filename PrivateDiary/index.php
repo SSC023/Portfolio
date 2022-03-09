@@ -88,6 +88,7 @@ if($_POST['email']){
                     <input id="password" type ="password" name="password" class="form-control">
                     <br></br>
                     <button id="signin" class="btn btn-primary">Sign in</button>
+                    <checkbox>
                     <p></p>
                     <p id="registration">Not registered? <a href="https://stephansaguiertest-com.stackstaging.com/MyCode/sql/secretDiary/registration.php">Registration</a></p>
                 </div>
