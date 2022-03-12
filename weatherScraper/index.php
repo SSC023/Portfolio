@@ -4,6 +4,8 @@
     $error = "";
     
     if ($_GET['city']) {
+
+// will be replaced for an API shortly...
         
         $city = str_replace(' ', '', $_GET['city']);
         
