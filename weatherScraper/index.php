@@ -1,144 +1,134 @@
 <?php
-    
-    $weather = "";
-    $error = "";
-    
-    if ($_GET['city']) {
 
-// will be replaced for an API shortly...
-        
-        $city = str_replace(' ', '', $_GET['city']);
-        
-        $file_headers = @get_headers("http://www.weather-forecast.com/locations/".$city."/forecasts/latest");
-        
-        
-        if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
-    
-            $error = "That city could not be found.";
+  if($_GET['city']){
 
-        } else {
-        
-        $forecastPage = file_get_contents("http://www.weather-forecast.com/locations/".$city."/forecasts/latest");
-        
-        $pageArray = explode('3 Day Weather Forecast Summary:</b><span class="read-more-small"><span class="read-more-content"> <span class="phrase">', $forecastPage);
-            
-        if (sizeof($pageArray) > 1) {
-        
-                $secondPageArray = explode('</span></span></span>', $pageArray[1]);
-            
-                if (sizeof($secondPageArray) > 1) {
 
-                    $weather = $secondPageArray[0];
-                    
-                } else {
-                    
-                    $error = "That city could not be found.";
-                    
-                }
-            
-            } else {
-            
-                $error = "That city could not be found.";
-            
-            }
-        
-        }
-        
+    $city = $_GET['city'];
+
+    $forecast =  file_get_contents('https://api.openweathermap.org/data/2.5/weather?q='.urlencode($city).'&appid=defc80530b996b05d2b9413f7d5d8d8f');
+
+    $forecastArray = json_decode($forecast, true);
+
+    if($forecastArray['cod']==200){
+
+        $temp = intval($forecastArray['main']['temp']-273);
+
+        $forecastMessage = "The weather in ".$city." is ".$forecastArray['weather'][0]['description']." and the temperature is ".$temp."&deg;C. The wind speed is ".$forecastArray['wind']['speed']."m/s.";
+    } else {
+        $errorMessage = "Could not find city. Please try again!";
     }
+  }
 
 
 ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags always come first -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+<html>
 
-      <title>What's the Weather?</title>
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="../c4/jquery-ui-1.13.1/jquery-ui-1.13.1/jquery-ui.js"></script>
+
+    <link href="../c4/jquery-ui-1.13.1/jquery-ui-1.13.1/jquery-ui.css" rel="stylesheet">
+       
+    <title>How's the weather?</title>
+
+    <style type="text/css">
+
+      body { 
+        background: url(weather2.jpg) no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+      #error{
+        border-radius: 10px;
+        display: none;
+        position: relative;
+        top: 15px;
+      }
+      #forecast{
+        display: none;
+        position: relative;
+        top: 15px;
+      }
+      #bar{
+          margin-bottom: 15px;
+      }
+      #search{
+          margin-bottom: 15px;
+      }
       
-      <style type="text/css">
+
+    </style>
+
+    </head>
+
+    <body>
+
       
-      html { 
-          background: url(background.jpeg) no-repeat center center fixed; 
-          -webkit-background-size: cover;
-          -moz-background-size: cover;
-          -o-background-size: cover;
-          background-size: cover;
-          }
+
+        <div class="container py-4">
+            <header class="pb-3 mb-4 border-bottom">
+              <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
+                <span class="fs-4">SSC Weather Scraper</span>
+              </a>
+            </header>
         
-          body {
+            <div class="p-5 mb-4 rounded-3">
+              <div class="container-fluid py-5 text-center">
+                <h1 class="display-5 fw-bold">What's the weather?</h1>
+                <p class="col-md-12 fs-4 text-center"><strong>Enter the name of a city.</strong></p>
+                <fieldset class="form-group">
+                <form class="d-flex">
+                  <input name="city" id="bar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                </fieldset>
+                  <button id="search" class="btn btn-primary btn-lg" type="submit">Search</button>
+                </form>
+                <div id="weather"><?php 
               
-              background: none;
-              
-          }
-          
-          .container {
-              
-              text-align: center;
-              margin-top: 100px;
-              width: 450px;
-              
-          }
-          
-          input {
-              
-              margin: 20px 0;
-              
-          }
-          
-          #weather {
-              
-              margin-top:15px;
-              
-          }
-         
-      </style>
-      
-  </head>
-  <body>
-    
-      <div class="container">
-      
-          <h1>What's The Weather?</h1>
-          
-          
-          
-          <form>
-  <fieldset class="form-group">
-    <label for="city">Enter the name of a city.</label>
-    <input type="text" class="form-control" name="city" id="city" placeholder="Eg. London, Tokyo" value = "<?php echo $_GET['city']; ?>">
-  </fieldset>
-  
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-      
-          <div id="weather"><?php 
-              
-              if ($weather) {
+                 if ($forecastMessage) {
                   
-                  echo '<div class="alert alert-success" role="alert">
-  '.$weather.'
-</div>';
-                  
-              } else if ($error) {
+                        echo '<div class="alert alert-success" role="alert">
+                        '.$forecastMessage.'
+                        </div>';
+                                
+                } else if ($errorMessage) {
                   
                   echo '<div class="alert alert-danger" role="alert">
-  '.$error.'
-</div>';
-                  
-              }
-              
+                '.$errorMessage.'
+                </div>';  
+                }
               ?></div>
       </div>
+                
+              </div>
+            </div>
 
-    <!-- jQuery first, then Bootstrap JS. -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
-  </body>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+        
+
+      <script type="text/javascript">
+       
+    
+        </script> 
+      
+
+    </body>
+
+
+
 </html>
+
