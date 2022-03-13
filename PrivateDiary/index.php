@@ -123,6 +123,7 @@ if($_POST['email']){
                     document.getElementById("list").innerHTML += "<p>Invalid password!</p>";
                 }
             });
+            //should be verified in php. Makes loading experience better.
 
 
         </script>
