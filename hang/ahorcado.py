@@ -13,7 +13,8 @@ def acertar(char):
             elif char == palabra[i]:
                 return True
             else:
-                return Falsedef posicion(char):
+                return False
+def posicion(char):
     for i in range(len(palabra)):
         if char != palabra[i]:
             continue
