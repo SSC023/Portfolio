@@ -36,7 +36,7 @@ if(first == 'L' or first == 'l'):
         third = input('Which door, Red, Blue or Yellow? R | B | Y ')
         if(third == 'Y' or third == 'y'):
             print(
-                'You win! You found the treasure. The treasure is yourself, like in Kung fu Panda :)')
+                'You win! You found the treasure. The treasure is yourself, like in Kung fu Panda. :)')
         elif(third == 'R' or third == 'r'):
             print('Burned by fire.\n Game Over.')
         else:
